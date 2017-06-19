@@ -36,6 +36,17 @@
 + Write the minimal C++ program to remove error.
 + Testing our application runs without error.
 
+```cpp
+// Standard C++ library automatically included by Visual Studio
+#include "stdafx.h"
+
+int main() {
+  return 0;
+}
+```
+
+Created a C++ function "main" that can be run CTRL+F5 without errors and returns integer 0.
+
 ### Using, #include and Namespaces ###
 
 + **#** represents a “preprocessor directive”.
@@ -44,7 +55,34 @@
 + Use <> for standard libraries.
 + Use “ “ for files you have created yourself.
 + Notice the namespace icon in autocomplete.
-+ Import **iostream** library and use **std** namespace.
++ Import **iostream** library and use **std** namespace
++ Clean up your code by removing **std::** that is no longer needed
+
+```cpp
+#include "stdafx.h"
+#include <iostream>
+
+int main()
+{
+  std::cout << "Welcome to Bulls and Cows" << std::endl;
+  return 0;
+}
+```
+
+By defining the std namespace we can simplify our code:
+
+```cpp
+#include "stdafx.h"
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+  cout << "Welcome to Bulls and Cows" << endl;
+  return 0;
+}
+```
 
 ### Magic Numbers and Constants ###
 
