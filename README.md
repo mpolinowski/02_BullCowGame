@@ -95,7 +95,7 @@ int main()
 ```cpp
 int main()
 {
-  // intoduce the game
+  // introduce the game
   constexpr int WORD_LENGTH = 9;
   cout << "Welcome to Bulls and Cows" << endl;
   cout << "Can you guess the << WORD_LENGTH;
@@ -124,7 +124,7 @@ There are 2 ways to break to a new line - "endl" and "/n". The latter does not f
 
 int main()
 {
-  // intoduce the game
+  // introduce the game
   // ...
 
   // get a guess from player
@@ -147,12 +147,9 @@ int main()
 + Where to find C++ documentation => www.cplusplus.com
 
 ```cpp
-// string library is needed for the ">>" operator
-#include <string>
-
 int main()
 {
-  // intoduce the game
+  // introduce the game
   // ...
 
   // get a guess from player
@@ -172,19 +169,136 @@ int main()
 
 + Programming is all about managing complexity.
 + We want to think about a few things at a time.
-+ The idea of abstraction and encapsulation.
-+ How functions help us simplify.
-+ Write and call your first functions.
-+ A warning about “side-effects” of functions.
++ The idea of abstraction and encapsulation -> the scope of the constexpr WORD_LENGTH is now limited to the PrintIntro function.
 + Always use **return** at the end of your functions.
+
++ Wrap the code Intro code into function to make our code more readable.
++ The PrintIntro() then be called from within main()
+
+*PrintIntro* function:
+
+```cpp
+void PrintIntro()
+  {
+    // introduce the game
+    constexpr int WORD_LENGTH = 9;
+    cout << "Welcome to Bulls and Cows" << endl;
+    cout << "Can you guess the << WORD_LENGTH;
+    cout << " letter isogram I'm thinking of?/n";
+    cout << endl;
+    return;
+  }
+
+  //Entry point of application
+  int main()
+  {
+    // introduce the game
+    PrintIntro ();
+
+    // get a guess from player
+    // ...
+
+    // return guess to player
+    // ...
+
+    return 0;
+  }
+```
+
+The collection of functions used by main() should be at the end of the document. We have to put the identifier for the function PrintIntro() on top of the document. This way we can put the body PrintIntro(){} below main()
+
+```cpp
+void PrintIntro():
+
+//Entry point of application
+int main()
+{
+  // introduce the game
+  PrintIntro ();
+
+  // get a guess from player
+  // ...
+
+  // return guess to player
+  // ...
+
+  return 0;
+}
+
+void PrintIntro()
+  {
+    // introduce the game
+    constexpr int WORD_LENGTH = 9;
+    cout << "Welcome to Bulls and Cows" << endl;
+    cout << "Can you guess the << WORD_LENGTH;
+    cout << " letter isogram I'm thinking of?/n";
+    cout << endl;
+    return;
+  }
+```
+
+This makes it easy to spot main() inside the document. Descriptive identifier for each function inside main() make our code readable / **self-documenting**
+
+Repeat this process with all other functions inside main():
+
+```cpp
+void PrintIntro():
+string GetGuessAndPrintBack();
+
+//Entry point of application
+int main()
+{
+  PrintIntro ();
+  GetGuessAndPrintBack ();
+  return 0;
+}
+
+// introduce the game
+void PrintIntro() {...}
+
+// get a guess from player and print back
+string GetGuessAndPrintBack()
+{
+  cout << "Enter your guess: ";
+  string Guess = "";
+  getline(cin, Guess);
+  //print guess back to player
+  cout << "Your guess was: " << Guess << endl;
+  return Guess;
+}
+```
+
 
 ### Iterating With For & While Loops ###
 
-+ Why we need loops.
-+ When to use **for** vs **while**.
-+ The syntax of a **for** loop.
++ Use loops to prevent typing the same code repeatedly
++ When to use **for** vs **while** -> "When you know what you in **FOR**" / "When you are looping for a **WHILE**" -> use for-loop when you know the number of loops at compile time.
++ The syntax of a for-loop: **for** (**Initialization**: count = 1; **Condition**: count <= limit; **Increase**: count = count +1) {**Statement**}
 + Think carefully about the first & last loop.
 + Write a **for** loop to repeat the game.
+
+```cpp
+int main()
+{
+  // introduce the game
+  PrintIntro ();
+
+  // get a guess from player and loop for number of turns
+  constexpr int NUMBER_OF_TURNS = 5;
+
+  for (int i = 0; i < NUMBER_OF_TURNS; i++)
+	{
+		GetGuessAndPrintBack();
+    cout << endl;
+	}
+
+  return 0;
+}
+```
+
+**Useful Links**
++ \* [www.cplusplus.com](http://www.cplusplus.com/doc/tutorial/control)
++ \* [msdn.microsoft.com](https://msdn.microsoft.com/en-us/library/b80153d8.aspx)
 
 ### Clarity is Worth Fighting For ###
 
@@ -194,7 +308,59 @@ int main()
 + What a header file (.h) is.
 + What’s refactoring, and why we do it.
 + Removing side-effects.
-+ Where to find the course code on GitHub.
++ Where to find the course code. [UnrealCourse](http://www.unrealcourse.com/) & [Github.com](https://github.com/UnrealCourse)
+
+Encapsulate for-loop in PlayGame() to clean up main():
+
+```cpp
+void PrintIntro();
+void PlayGame():
+string GetGuessAndPrintBack();
+
+int main()
+{
+  PrintIntro ();
+  PlayGame ();
+
+  return 0; //Exit application
+}
+
+void PlayGame()
+{
+  // get a guess from player and loop for number of turns
+  constexpr int NUMBER_OF_TURNS = 5;
+  for (int i = 0; i < NUMBER_OF_TURNS; i++)
+	{
+		GetGuessAndPrintBack();
+    cout << endl;
+	}
+}
+```
+
+All functions should only do one thing - removing PrintBack from GetGuess:
+
+```cpp
+void PlayGame()
+{
+  // get a guess from player and loop for number of turns
+  constexpr int NUMBER_OF_TURNS = 5;
+  for (int i = 0; i < NUMBER_OF_TURNS; i++)
+	{
+		GetGuess();
+    string Guess = GetGuess();
+    cout << "Your guess was: " << Guess << endl;
+	}
+}
+
+string GetGuess()
+{
+  cout << "Enter your guess: ";
+  string Guess = "";
+  getline(cin, Guess);
+  return Guess;
+}
+```
+To rename all instances of a function identifier in VisualStudio, select it and press **CTRL+R** twice!
 
 ### Booleans and comparisons ###
 
