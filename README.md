@@ -45,7 +45,7 @@ int main() {
 }
 ```
 
-Created a C++ function "main" that can be run CTRL+F5 without errors and returns integer 0.
+Created a C++ function "main" in a file "main.cpp" that can be run CTRL+F5 without errors and returns integer 0.
 
 ### Using, #include and Namespaces ###
 
@@ -90,25 +90,83 @@ int main()
 + Why it’s a good idea to avoid them.
 + **constexpr** means “evaluated at compile time”.
 + Introduce coding standards\*.
-+ Use a constant for the word length.
++ Use a constant expression for the word length.
+
+```cpp
+int main()
+{
+  // intoduce the game
+  constexpr int WORD_LENGTH = 9;
+  cout << "Welcome to Bulls and Cows" << endl;
+  cout << "Can you guess the << WORD_LENGTH;
+  cout << " letter isogram I'm thinking of?/n";
+
+  cout << endl;
+  return 0;
+}
+```
+
+There are 2 ways to break to a new line - "endl" and "/n". The latter does not flush the output buffer - otherwise identical.
 
 **Useful Links**
 + \* [Unreal Engine - Coding Standard](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard/index.html)
 
 ### Variables and cin for Input ###
 
-+ The difference between **\n** and **endl**
-+ Introducing pseudocode programming
++ Introducing pseudocode programming - add a comment to describe the function before you start programming
 + Why we need to **#import \<string\>**
 + Getting input using **cin**
-+ Discovering woes with our input buffer.
++ cin breaks consuming input at space - you cannot input more then 1 word
+
+```cpp
+// string library is needed for the ">>" operator
+#include <string>
+
+int main()
+{
+  // intoduce the game
+  // ...
+
+  // get a guess from player
+  cout << "Enter your guess: ";
+  string Guess = "";
+  cin >> Guess;
+
+  // return guess to player
+  cout << "Your guess was: " << Guess << endl;
+
+  cout << endl;
+  return 0;
+}
+```
 
 ### Using getline() ###
 
-+ Re-cap the problem we have.
-+ Why **getline()** is useful here.
-+ Where to find C++ documentation.
-+ A word on non-obvious solutions.
++ Solve the problem that you cannot enter a guess with more then one word
++ **getline()** reads through spaces and discards input stream @endl
++ Where to find C++ documentation => www.cplusplus.com
+
+```cpp
+// string library is needed for the ">>" operator
+#include <string>
+
+int main()
+{
+  // intoduce the game
+  // ...
+
+  // get a guess from player
+  cout << "Enter your guess: ";
+  string Guess = "";
+  getline (cin,Guess);
+
+  // return guess to player
+  cout << "Your guess was: " << Guess << endl;
+
+  cout << endl;
+  return 0;
+}
+```
 
 ### Simplifying With Functions ###
 
