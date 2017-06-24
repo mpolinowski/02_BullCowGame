@@ -1,3 +1,12 @@
+# Unreal Engine Coding Standards
+
+This is a fork of the first section of the [Unreal Course](https://github.com/UnrealCourse) teaching C++ coding standards for the Unreal Game Engine.
+
+The Source Code can be found in [consoleApplication](https://github.com/mpolinowski/consoleApplication)
+
+The following is the commented Course Journal:
+
+
 ### Intro, Notes & Section 2 Assets ###
 
 + Welcome to the first actual coding video.
@@ -372,11 +381,61 @@ To rename all instances of a function identifier in VisualStudio, select it and 
 + Use **[n]** to access a string, starting at n=0.
 + Use **‘ ‘** for characters, and **“ “** for strings.
 
+Add true/false boolean for asking to restart the game after a completed run.
+
+```cpp
+void PrintIntro();
+void PlayGame():
+string GetGuessAndPrintBack();
+bool AskToPlayAgain();
+
+int main()
+{
+  PrintIntro ();
+  PlayGame ();
+  AskToPlayAgain();
+
+  return 0; //Exit application
+}
+
+bool AskToPlayAgain()
+{
+  cout << "Do you want to play again? y/n ";
+  string Response = "";
+  getline(cin, Response);
+
+  return (Response[0] == 'y') || (Response[0] = 'Y');
+}
+```
+
+Response[0] takes the first character from the Response string. Compare to character y/Y and return true or false.
+
 ### Using do and while in C++ ###
 
-+ What a **do while** loop is.
-+ How it executes code one or more times.
++ A **do while** loop is: do {code to repeat} while (condition);
++ A do/while code is always executed at least once and repeated until the condition is reached.
 + Making our game play multiple times.
+
+```cpp
+int main()
+{
+  bool bPlayAgain = false;
+
+  do
+  {
+    PrintIntro ();
+    PlayGame ();
+    bPlayAgain = AskToPlayAgain();
+  }
+
+  while (bPlayAgain);
+
+  return 0;
+}
+```
+
+The boolean bPlayAgain is set to **false** at the beginning of the loop - AskToPlayAgain sets it to **true** if player types "yes".
+The do/while loop is repeated until while is set to false.
 
 ### Introducing Classes ###
 
@@ -391,7 +450,26 @@ To rename all instances of a function identifier in VisualStudio, select it and 
 + Introducing .h header files in C++.
 + Why the added complexity is worth it.
 + Defining the interface to our class.
-+ Writing our first draft of FBullCowGame.h
++ Writing our first draft of FBullCowGame.
+
+```cpp
+#pragma once
+#include <string>
+
+class FBullCowGame
+{
+public:
+  void Reset();
+  int GetMaxTries();
+  int GetCurrentTry();
+  bool IsGameWon();
+  bool CheckGuessValidity(std::string);
+
+private:
+  int MyCurrentTry;
+  int MyMaxTries;
+}
+```
 
 ### Including Our Own Header File ###
 
@@ -400,6 +478,39 @@ To rename all instances of a function identifier in VisualStudio, select it and 
 + Create your .cpp files and **#include**
 + Don’t create chains of includes.
 
+Remove **using namespace std;** from main.cpp - add std:: to all instances of cout, cin, string, endl, getline
+
+Add *.cpp file to header - select void Reset(); right-click it, choose Quick-Action and Create Definition - this creates FBullCowGame.cpp. Repeat this for all methods in header file:
+
+```cpp
+#include FBullCowGame.h
+
+void FBullCowGame::Reset()
+{
+  return;
+}
+
+int FBullCowGame::GetCurrentTry()
+{
+  return 0;
+}
+
+int FBullCowGame::GetMaxTries()
+{
+  return 0;
+}
+
+bool FBullCowGame::IsGameWon()
+{
+  return false,
+}
+
+void FBullCowGame::CheckGuessValidity(std::string)
+{
+  return false;
+}
+```
+
 ### Instantiating Your Class ###
 
 + Relax, they’re just user defined types!
@@ -407,7 +518,27 @@ To rename all instances of a function identifier in VisualStudio, select it and 
 + FBullCowGame BCGame; works the same way
 + These instances are initialised by “constructors”
 + Instantiating means “creating an instance of”
-+ So we’re simply creating a game instance.
++ So we’re simply creating a FBullCowGame game instance "BCGame".
+
+```cpp
+#include "FBullCowGame.h"
+
+int main()
+{...}
+
+void PlayGame()
+{
+  FBullCowGame BCGame;
+
+  constexpr int NUMBER_OF_TURNS = 5;
+  for (int i = 0; i < NUMBER_OF_TURNS; i++)
+  {
+    std::string Guess = GetGuess();
+    std::cout << "Your guess was: " << Guess << std::endl;
+    std::cout << std::endl;
+  }
+}
+```
 
 ### Writing & Using Getter Methods ###
 
