@@ -640,7 +640,6 @@ bool FBullCowGame::IsGameWon() const
 + Initialize in declaration if known at compile time
 + Constructor syntax simply: **ClassName()**;
 + Set the member variables in constructor
-+ Test this has worked.
 
 Add constructor function to headerfile and move private variable Initialization to constructor in FBullCowGame.cpp - before they were initialized at compile time. the constructor now initializes them at runtime. Adding private: int MyCurrentTry = 666; in headerfile will now be overwritten by constructor at runtime!
 
